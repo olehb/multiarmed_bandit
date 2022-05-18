@@ -52,11 +52,13 @@ class Agent(abc.ABC):
 
     @property
     def name(self):
-        class_name = self.__class__.__name__
-        if self._initial_estimate == 0:
-            return class_name
-        else:
-            return f"{class_name}_est{self._initial_estimate}"
+        n = self.__class__.__name__
+        if self._learning_rate != 0.01:
+            n += f"_lr{self._learning_rate}"
+
+        if self._initial_estimate != 0:
+            n += f"_est{self._initial_estimate}"
+        return n
 
     def __repr__(self):
         return self.name
@@ -91,7 +93,7 @@ class EGreedyAgent(Agent):
 
     @property
     def name(self):
-        return f"{super().name}_{self._eps}"
+        return f"{super().name}_eps{self._eps}"
 
 
 def run_experiment(
@@ -119,7 +121,8 @@ def main():
         lambda: RandomAgent(num_actions),
         lambda: GreedyAgent(num_actions),
         lambda: EGreedyAgent(num_actions, eps=0.01),
-        # lambda: EGreedyAgent(num_actions, eps=0.1),
+        lambda: EGreedyAgent(num_actions, learning_rate=0.1, eps=0.01),
+        lambda: EGreedyAgent(num_actions, eps=0.1),
     ]
 
     create_world = lambda i: World(i, num_actions)
