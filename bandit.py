@@ -28,7 +28,12 @@ class World:
 
 
 class Agent(abc.ABC):
-    def __init__(self, num_actions: int, initial_estimate: float = 0.0, learning_rate:float = 0.01):
+    def __init__(
+        self,
+        num_actions: int,
+        initial_estimate: float = 0.0,
+        learning_rate: float = 0.01,
+    ):
         self._num_actions = num_actions
         self._reward_estimates = np.full(
             (num_actions,), initial_estimate, dtype=np.float
@@ -68,7 +73,13 @@ class GreedyAgent(Agent):
 
 
 class EGreedyAgent(Agent):
-    def __init__(self, num_actions: int, initial_estimate: float = 0.0, learning_rate: float = 0.01, eps: float = 0.01):
+    def __init__(
+        self,
+        num_actions: int,
+        initial_estimate: float = 0.0,
+        learning_rate: float = 0.01,
+        eps: float = 0.01,
+    ):
         super().__init__(num_actions, initial_estimate, learning_rate)
         self._eps = eps
 
